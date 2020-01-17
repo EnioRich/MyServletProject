@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class BuyService {
   private static final MailService MAIL_SERVICE = new MailService();
-  private  CodeDao codeDao = new CodeDao();
   private static final String BUY_CONFIRMATION_JSP = "buyConfirmation.jsp";
   private static final String CONFIRMATION_JSP = "confirmation.jsp";
   private static final String GOOD_ID = "goodId";
@@ -21,6 +20,7 @@ public class BuyService {
   private static final String PAYMENT_ATTRIBUTE = "payment";
   private static final String PAYMENT_SUCCESS_MESSAGE = "Payment success";
   private static final String WRONG_CODE_MESSAGE = "Wrong code";
+  private CodeDao codeDao = new CodeDao();
 
   public final void pay(
           final HttpServletRequest request,

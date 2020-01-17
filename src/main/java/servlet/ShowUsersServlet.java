@@ -11,17 +11,15 @@ import java.io.IOException;
 
 @WebServlet(value = "/userlist")
 public final class ShowUsersServlet extends HttpServlet {
-  private static UserService userService = new UserService();
+  private UserService userService = new UserService();
   private static final String USERS_JSP = "/users.jsp";
-  private static final String USER_LIST_PARAM = "userList";
+
 
   protected void doPost(
           final HttpServletRequest request,
           final HttpServletResponse response)
           throws ServletException, IOException {
-    request.setAttribute(
-            USER_LIST_PARAM,
-            userService.getAllUsers());
+    userService.getAllUsers(request);
     doGet(request, response);
   }
 

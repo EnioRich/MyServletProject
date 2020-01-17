@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet(value = "/deleteGood")
 public final class DeleteGoodServlet extends HttpServlet {
   private static final String DELETE_GOOD_JSP = "/deleteGood.jsp";
-  private final GoodService goodService = new GoodService();
+  private GoodService goodService = new GoodService();
 
   protected void doPost(
           final HttpServletRequest request,

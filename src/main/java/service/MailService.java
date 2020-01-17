@@ -18,7 +18,7 @@ public final class MailService {
 
   public String sendMail(final String userEmail) {
     final String username = "evakule15@gmail.com";
-    final String password = "4619751Egor#";
+    final String password = "12345";
 
     Properties prop = new Properties();
     prop.put("mail.smtp.host", "smtp.gmail.com");

@@ -10,34 +10,40 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 public final class UserService {
-  private UserDao userDao = new HibernateImplementationDao();
   private static final String USERNAME_PARAM = "username";
   private static final String PASSWORD_PARAM = "password";
+  private static final String USER_LIST_PARAM = "userList";
+  private static final String ID_PARAM = "id";
+  private static final String NEW_PASSWORD_PARAM = "newpassword";
+  private static final String NEW_USERNAME_PARAM = "newusername";
+  private static final String LOGIN_ATTRIBUTE = "login";
+  private static final String USER_ATTRIBUTE = "user";
+  private static final String UPDATES_ATTRIBUTE = "updates";
+  private static final String REGISTERED_ATTRIBUTE = "registered";
+  private static final String DELETED_ATTRIBUTE = "deleted";
+  private static final String NEW_PASSWORD_IS = "New password is: ";
+  private static final String NEW_USERNAME_IS = "New username is: ";
+  private static final String IS_DELETED = " is deleted";
+  private static final String IS_REGISTERED = " is registered";
   private static final String NEW_EMAIL = "linken.td@gmail.com";
   private static final String ADMIN_PAGE_JSP = "adminPage.jsp";
   private static final String GOODS_URL = "/goods";
-  private static final String LOGIN_ATTRIBUTE = "login";
-  private static final String USER_ATTRIBUTE = "user";
-  private static final String ID_PARAM = "id";
-  private static final String UPDATES_ATTRIBUTE = "updates";
-  private static final String NEW_PASSWORD_IS = "New password is: ";
-  private static final String NEW_USERNAME_IS = "New username is: ";
-  private static final String INCORRECT_USER_NAME_MESSAGE =
-          "Incorrect username or password";
-  private static final String UNABLE_FIND_USER = "Couldn't find user";
-  private static final String DELETED_ATTRIBUTE = "deleted";
-  private static final String NO_SUCH_USER_MESSAGE = "There is no such user!";
-  private static final String IS_DELETED = " is deleted";
-  private static final String REGISTERED_ATTRIBUTE = "registered";
-  private static final String IS_REGISTERED = " is registered";
   private static final String USER_NAME_ALREADY_EXIST_MESSAGE =
           "Username already exist";
+  private static final String NO_SUCH_USER_MESSAGE =
+          "There is no such user!";
+  private static final String INCORRECT_USER_NAME_MESSAGE =
+          "Incorrect username or password";
+  private static final String UNABLE_FIND_USER_MESSAGE =
+          "Couldn't find user";
+  private UserDao userDao = new HibernateImplementationDao();
 
-  public List<User> getAllUsers() {
-    return userDao.getAllUsers();
+  public void getAllUsers(final HttpServletRequest request) {
+    request.setAttribute(
+            USER_LIST_PARAM,
+            userDao.getAllUsers());
   }
 
   public void login(
@@ -60,9 +66,8 @@ public final class UserService {
     }
   }
 
-  public void changePasswordByAdmin(
-          final HttpServletRequest request,
-          final String requestPassword) {
+  public void changePasswordByAdmin(final HttpServletRequest request) {
+    String requestPassword = request.getParameter(NEW_PASSWORD_PARAM);
     User user = getUserFromSession(request);
     boolean isNoUser = userDao.checkUser(user);
     if (!isNoUser) {
@@ -73,14 +78,12 @@ public final class UserService {
       request.setAttribute(UPDATES_ATTRIBUTE,
               NEW_PASSWORD_IS + requestPassword);
     } else {
-      request.setAttribute(UPDATES_ATTRIBUTE, UNABLE_FIND_USER);
+      request.setAttribute(UPDATES_ATTRIBUTE, UNABLE_FIND_USER_MESSAGE);
     }
   }
 
-  public void changeUserNameByAdmin(
-          final HttpServletRequest request,
-          final String requestUsername
-  ) {
+  public void changeUserNameByAdmin(final HttpServletRequest request) {
+    String requestUsername = request.getParameter(NEW_USERNAME_PARAM);
     User user = getUserFromSession(request);
     boolean isNoUser = userDao.checkUser(user);
     if (!isNoUser) {
@@ -88,7 +91,7 @@ public final class UserService {
       request.setAttribute(UPDATES_ATTRIBUTE,
               NEW_USERNAME_IS + requestUsername);
     } else {
-      request.setAttribute(UPDATES_ATTRIBUTE, UNABLE_FIND_USER);
+      request.setAttribute(UPDATES_ATTRIBUTE, UNABLE_FIND_USER_MESSAGE);
     }
   }
 

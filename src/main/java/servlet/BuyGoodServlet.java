@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/buy")
 public final class BuyGoodServlet extends HttpServlet {
-  private final BuyService buyService = new BuyService();
+  private BuyService buyService = new BuyService();
 
   protected void doPost(
           final HttpServletRequest request,
